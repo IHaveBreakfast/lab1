@@ -86,8 +86,17 @@ async def start(message: types.Message):
                 balance = balance - r[3]
             else:
                 balance = balance + r[3]
-        await message.reply(balance)
+    await message.reply(balance)
+
 
 @dp.message_handler(commands=("help"), commands_prefix="/!")
 async def start(message: types.Message):
     cmd_variants = ('/help', '!help')
+
+    await message.reply("<b>Ввод расхода:</b> /spend [сумма] [причина] <b>или</b> /s [сумма] [причина]\n"
+    "<b>Ввод дохода:</b> /earn [сумма] [источник] <b>или</b> /e [cумма] [источник]\n"
+    "<b>Вывод истории за день/месяц/год:</b> /history day/month/year <b>или</b> /h day/month/year\n"
+    "<b>Вывод баланса:</b> /balance <b>или</b> /b")
+
+
+
