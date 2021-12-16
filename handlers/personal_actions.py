@@ -61,7 +61,7 @@ async def start(message: types.Message):
                     within = k
 
     records = BotDB.get_records(message.from_user.id, within)
-
+    balance = 0
     if(len(records)):
         answer = f"🕘 История операций за {within_als[within][-1]}\n\n"
 
@@ -70,7 +70,11 @@ async def start(message: types.Message):
             answer += f" - {r[3]}"
             answer += f" <i>({r[4]})</i>"
             answer += f"{r[5]}\n"
-
+            if not r[2]:
+                balance = balance - r[3]
+            else:
+                balance = balance + r[3]
+        answer += f"\nБаланс: {balance}\n"
         await message.reply(answer)
     else:
         await message.reply("Записей не обнаружено!")
@@ -86,17 +90,8 @@ async def start(message: types.Message):
                 balance = balance - r[3]
             else:
                 balance = balance + r[3]
-    await message.reply(balance)
-
+        await message.reply(balance)
 
 @dp.message_handler(commands=("help"), commands_prefix="/!")
 async def start(message: types.Message):
     cmd_variants = ('/help', '!help')
-
-    await message.reply("<b>Ввод расхода:</b> /spend [сумма] [причина] <b>или</b> /s [сумма] [причина]\n"
-    "<b>Ввод дохода:</b> /earn [сумма] [источник] <b>или</b> /e [cумма] [источник]\n"
-    "<b>Вывод истории за день/месяц/год:</b> /history day/month/year <b>или</b> /h day/month/year\n"
-    "<b>Вывод баланса:</b> /balance <b>или</b> /b")
-
-
-
