@@ -10,7 +10,7 @@ async def start(message: types.Message):
     if(not BotDB.user_exists(message.from_user.id)):
         BotDB.add_user(message.from_user.id)
 
-    await message.bot.send_message(message.from_user.id, "Добро пожаловать!")
+    await message.bot.send_message(message.from_user.id, "Добро пожаловать! \n Для ознакомления с возможностями бота напишите /help")
 
 @dp.message_handler(commands = ("spend", "earn", "s", "e"), commands_prefix = "/!")
 async def start(message: types.Message):
@@ -95,3 +95,17 @@ async def start(message: types.Message):
 @dp.message_handler(commands=("help"), commands_prefix="/!")
 async def start(message: types.Message):
     cmd_variants = ('/help', '!help')
+
+    await message.reply("<b>Ввод расхода:</b> /spend [сумма] [причина] <b>или</b> /s [сумма] [причина]\n"
+                        "<b>Ввод дохода:</b> /earn [сумма] [источник] <b>или</b> /e [cумма] [источник]\n"
+                        "<b>Вывод истории за день/месяц/год:</b> /history day/month/year <b>или</b> /h day/month/year\n"
+                        "<b>Вывод баланса:</b> /balance <b>или</b> /b\n"
+                        "<b>Очистить файл:</b> /clear <b>или</b> /c")
+
+
+@dp.message_handler(commands=("clear", "c"), commands_prefix="/!")
+async def start(message: types.Message):
+    cmd_variants = (('/clear', '/c', '!clear', '!c'))
+
+    clear = BotDB.delete_records(message.from_user.id)
+    await message.reply("Список очищен!")

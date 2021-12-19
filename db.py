@@ -48,6 +48,10 @@ class BotDB:
 
         return result.fetchall()
 
+    def delete_records(self, user_id):
+        self.cursor.execute('DELETE FROM `records` WHERE `users_id` = ?',
+                (self.get_user_id(user_id),))
+
     def close(self):
         """Закрываем соединение с БД"""
         self.connection.close()
