@@ -16,9 +16,9 @@ async def start(message: types.Message):
 async def start(message: types.Message):
     cmd_variants = (('/spend', '/s', '!spend', '!s'), ('/earn', '/e', '!earn', '!e'))
     operation = '-' if message.text.startswith(cmd_variants[0]) else '+'
-    source = message.text.split( )
-    source = source[2]
-
+    regex = message.text
+    sou = re.split(' ', regex)
+    source = sou[2]
     value = message.text
     for i in cmd_variants:
         for j in i:
